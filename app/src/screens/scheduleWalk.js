@@ -15,7 +15,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 function ScheduleWalk() {
-  const available_times = [3, 4, 5, 6, 7];
+  const available_times = [15, 16, 17, 18, 19];
   const [walksBookedForToday, setWalksBookedForToday] = useState([]);
 
   async function bookWalk(startHour) {
@@ -26,6 +26,7 @@ function ScheduleWalk() {
           for: auth.currentUser.uid,
           time: getDateTimeForStartingAfternoonHour(startHour),
           day: new Date().toDateString(),
+          startHour: startHour,
         }
       );
 
@@ -84,7 +85,7 @@ function ScheduleWalk() {
 
 function getDateTimeForStartingAfternoonHour(hour) {
   var currentDate = new Date();
-  currentDate.setHours(12 + hour, 0, 0, 0); // Set hours to 14 (2 PM), minutes and seconds to 0, and milliseconds to 0
+  currentDate.setHours(hour, 0, 0, 0); // Set hours to 14 (2 PM), minutes and seconds to 0, and milliseconds to 0
   return currentDate;
 }
 
