@@ -16,7 +16,8 @@ const db = getFirestore(app);
 
 function ScheduleWalk() {
   const available_times = [15, 16, 17, 18, 19];
-  const [walksBookedForToday, setWalksBookedForToday] = useState([]);
+  const [walksBookedForTodayStartHours, setWalksBookedForTodayStartHours] =
+    useState([]);
 
   async function bookWalk(startHour) {
     try {
@@ -29,6 +30,13 @@ function ScheduleWalk() {
           startHour: startHour,
         }
       );
+
+      // after successfully creating an event, add the start hour to
+      // walksBookedForTodayStartHours
+      setWalksBookedForTodayStartHours([
+        ...walksBookedForTodayStartHours,
+        startHour,
+      ]);
 
       // TODO: if this works, display a snackbar that tells the user that their
       // reservation was successful.
@@ -52,12 +60,11 @@ function ScheduleWalk() {
       const newWalksBookedForToday = [];
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        newWalksBookedForToday.push(doc.data());
+        newWalksBookedForToday.push(doc.data().startHour);
       });
 
       // update walksBookedForToday with walks booked for the day
-      setWalksBookedForToday(newWalksBookedForToday);
+      setWalksBookedForTodayStartHours(newWalksBookedForToday);
     }
 
     loadWalksForToday();
@@ -67,18 +74,28 @@ function ScheduleWalk() {
     <View>
       <Text>Schedule a Walk</Text>
 
-      {walksBookedForToday.map((reservation_data) => (
-        <Text>{reservation_data.day}</Text>
-      ))}
+      <Text>Booked Times</Text>
+      {walksBookedForTodayStartHours.map((reservationStartHour) =>
+        reservationStartHour == new Date().getHours() ? (
+          // we will build the logic for showing the current active walk on this
+          <Text key={reservationStartHour}>Active: {reservationStartHour}</Text>
+        ) : (
+          <Text key={reservationStartHour}>{reservationStartHour}</Text>
+        )
+      )}
 
-      {available_times.map((time) => (
-        <View key={time}>
-          <View>
-            <Text style={{ textAlign: "center" }}>{time} pm</Text>
+      <Text>Available Times</Text>
+
+      {available_times.map((time) =>
+        !walksBookedForTodayStartHours.includes(time) ? (
+          <View key={time}>
+            <View>
+              <Text style={{ textAlign: "center" }}>{time} pm </Text>
+            </View>
+            <Button title="Book" onPress={() => bookWalk(time)} />
           </View>
-          <Button title="Book" onPress={() => bookWalk(time)} />
-        </View>
-      ))}
+        ) : null
+      )}
     </View>
   );
 }
