@@ -82,7 +82,25 @@ function ScheduleWalk() {
     <View styles={styles.scrollView}>
       <ScrollView styles={styles.scrollView}>
         <View style={styles.container}>
-          <Text style={{ fontSize: 40, fontWeight: "bold", marginTop: 20, marginBottom: 50 }}>FinnaWalk</Text>
+          <Text
+            style={{
+              fontSize: 40,
+              fontWeight: "bold",
+              marginTop: 20,
+              marginBottom: 50,
+            }}
+          >
+            Finna'Walk
+          </Text>
+          <View style={{ marginBottom: 40 }}>
+            {walksBookedForTodayStartHours.map((reservationStartHour) =>
+              reservationStartHour == new Date().getHours() ? (
+                // we will build the logic for showing the current active walk on this
+                <ActiveWalk time={reservationStartHour} />
+              ) : null
+            )}
+          </View>
+
           <View style={{ marginBottom: 40 }}>
             <Text
               style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}
@@ -90,17 +108,7 @@ function ScheduleWalk() {
               Upcoming Walks
             </Text>
             {walksBookedForTodayStartHours.map((reservationStartHour) =>
-              reservationStartHour == new Date().getHours() ? (
-                // we will build the logic for showing the current active walk on this
-                <View key={reservationStartHour}>
-                  <Text>Active: {reservationStartHour}</Text>
-                  <Link
-                    href={`/src/screens/group_listing/${reservationStartHour}`}
-                  >
-                    People
-                  </Link>
-                </View>
-              ) : (
+              reservationStartHour == new Date().getHours() ? null : ( // we will build the logic for showing the current active walk on this
                 <UpcomingWalk reservationStartHour={reservationStartHour} />
               )
             )}
@@ -126,6 +134,31 @@ function getDateTimeForStartingAfternoonHour(hour) {
 }
 
 export default ScheduleWalk;
+
+function ActiveWalk({ time }) {
+  return (
+    <View key={time} style={styles.activeWalk}>
+      <View style={{ paddingLeft: 10, marginBottom: 60 }}>
+        <Text
+          style={{
+            textAlign: "left",
+            fontSize: 30,
+            fontWeight: "bold",
+            color: "ghostwhite",
+          }}
+        >
+          Walk {time - 14}
+        </Text>
+        <Text style={{ textAlign: "left", fontSize: 15, color: "ghostwhite" }}>
+          {time} - {time + 1} pm{" "}
+        </Text>
+      </View>
+      <TouchableOpacity style={styles.buttonContainer}>
+        <Text style={styles.buttonText}>Walk</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 function AvailableWalkSlot({ time, bookWalkFunc }) {
   return (
@@ -163,7 +196,7 @@ function UpcomingWalk({ reservationStartHour }) {
           Walk {reservationStartHour - 14}
         </Text>
         <Text style={{ textAlign: "left", fontSize: 15 }}>
-          {reservationStartHour} - {reservationStartHour + 1} pm{" "}
+          {reservationStartHour}:00 - {reservationStartHour + 1}:00 pm{" "}
         </Text>
       </View>
     </View>
@@ -180,6 +213,17 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderColor: "darkblue",
     borderWidth: 2,
+  },
+  activeWalk: {
+    backgroundColor: "darkblue",
+    textAlign: "left",
+    borderRadius: 5,
+    marginVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 10,
+    borderColor: "darkblue",
+    borderWidth: 2,
+    color: "ghostwhite",
   },
   container: {
     paddingHorizontal: 20,
