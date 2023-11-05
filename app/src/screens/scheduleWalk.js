@@ -83,7 +83,10 @@ function ScheduleWalk() {
       <ScrollView styles={styles.scrollView}>
         <View style={styles.container}>
           <Text>Schedule a Walk</Text>
-          <Text>Booked Times</Text>
+          <View style={{ marginBottom: 40}}>
+          <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
+            Upcoming Walks
+          </Text>
           {walksBookedForTodayStartHours.map((reservationStartHour) =>
             reservationStartHour == new Date().getHours() ? (
               // we will build the logic for showing the current active walk on this
@@ -96,16 +99,10 @@ function ScheduleWalk() {
                 </Link>
               </View>
             ) : (
-              <View key={reservationStartHour}>
-                <Text>{reservationStartHour}</Text>
-                <Link
-                  href={`/src/screens/group_listing/${reservationStartHour}`}
-                >
-                  People
-                </Link>
-              </View>
+              <UpcomingWalk reservationStartHour={reservationStartHour} />
             )
           )}
+          </View>
           <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
             Available Times
           </Text>
@@ -145,6 +142,28 @@ function AvailableWalkSlot({ time, bookWalkFunc }) {
       >
         <Text style={styles.buttonText}>Book</Text>
       </TouchableOpacity>
+    </View>
+  );
+}
+
+function UpcomingWalk({ reservationStartHour }) {
+  return (
+    <View key={reservationStartHour} style={styles.walkSlot}>
+      <View style={{ paddingLeft: 10, marginBottom: 30 }}>
+        <Text
+          style={{
+            textAlign: "left",
+            fontSize: 30,
+            fontWeight: "bold",
+            color: "black",
+          }}
+        >
+          Walk {reservationStartHour - 14}
+        </Text>
+        <Text style={{ textAlign: "left", fontSize: 15 }}>
+          {reservationStartHour} - {reservationStartHour + 1} pm{" "}
+        </Text>
+      </View>
     </View>
   );
 }
