@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import {
   collection,
   getDocs,
@@ -60,11 +60,55 @@ export default function Page() {
   }, [start_hour]);
 
   return (
-    <View>
-      <Text>Walk Start Time: {start_hour}</Text>
+    <View style={{ paddingHorizontal: 20 }}>
+      <Text
+        style={{
+          fontSize: 40,
+          fontWeight: "bold",
+          marginTop: 40,
+          marginBottom: 50,
+        }}
+      >
+        Finna'Walk
+      </Text>
+      <Text style={{ fontSize: 24 }}>My Crew</Text>
+      <Text style={{ marginBottom: 10 }}>
+        {start_hour}:00 - {parseInt(start_hour) + 1}:00
+      </Text>
+      <View style={styles.message}>
+        <Text style={{ color: "ghostwhite" }}>
+          Meet your crew in front of the Fisk Memorial Chapel. And have fun!
+        </Text>
+      </View>
       {walkingGroupMembers.map((person) => (
-        <Text key={person}>{walkingGroupProfiles[person].name}</Text>
+        <View key={person} style={styles.walkPartner}>
+          <Text>{walkingGroupProfiles[person].name}</Text>
+        </View>
       ))}
     </View>
   );
 }
+const styles = StyleSheet.create({
+  walkPartner: {
+    backgroundColor: "ghostwhite",
+    textAlign: "left",
+    borderRadius: 5,
+    marginVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderColor: "darkblue",
+    borderWidth: 2,
+    paddingHorizontal: 10,
+  },
+  message: {
+    backgroundColor: "darkblue",
+    textAlign: "left",
+    borderRadius: 5,
+    marginVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderColor: " ghostwhite",
+    borderWidth: 2,
+    paddingHorizontal: 10,
+  },
+});
