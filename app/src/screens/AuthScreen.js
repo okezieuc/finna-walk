@@ -12,6 +12,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile
 } from "firebase/auth";
 
 import app from "../services/auth";
@@ -41,6 +42,7 @@ const AuthScreen = () => {
         // TODO: Show a snackbar to the user if sign up is successfull
         // TODO: Redirect a user to an onboarding page after they create
         // their account.
+        updateProfile(userCredential.user, {displayName: displayName})
       })
       .catch((error) => {
         // TODO: Show an error message to the user if an error occurs

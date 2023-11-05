@@ -22,6 +22,7 @@ const App = () => {
 
   function FireBaseOnAuthStateChanged(user) {
     setUser(user);
+    console.log(user, "ha")
     if (initializing) setInitializing(false);
   }
 
