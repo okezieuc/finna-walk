@@ -1,18 +1,19 @@
+import { StatusBar } from 'expo-status-bar';
+
 import React, { useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Button,
-  View
+  Text,
+  View,
+  Button
 } from 'react-native';
-
-import { Link } from 'expo-router'
 
 import app from './src/services/auth.js'
 import { getAuth, onAuthStateChanged, signOut} from 'firebase/auth';
 
-import AuthScreen from './src/screens/AuthScreen.js';
+import AuthScreen from './app/src/screens/AuthScreen.js';
 
 const App = () => {
   const [initializing, setInitializing] = useState(true);
