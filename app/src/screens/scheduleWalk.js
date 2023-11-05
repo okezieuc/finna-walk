@@ -1,4 +1,11 @@
-import { View, Text, Button } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import {
   collection,
   addDoc,
@@ -73,35 +80,40 @@ function ScheduleWalk() {
 
   return (
     <View>
-      <Text>Schedule a Walk</Text>
-
-      <Text>Booked Times</Text>
-      {walksBookedForTodayStartHours.map((reservationStartHour) =>
-        reservationStartHour == new Date().getHours() ? (
-          // we will build the logic for showing the current active walk on this
-          <View key={reservationStartHour}>
-            <Text>Active: {reservationStartHour}</Text>
-            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>
-              People
-            </Link>
-          </View>
-        ) : (
-          <View key={reservationStartHour}>
-            <Text>{reservationStartHour}</Text>
-            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>
-              People
-            </Link>
-          </View>
-        )
-      )}
-
-      <Text>Available Times</Text>
-
-      {available_times.map((time) =>
-        !walksBookedForTodayStartHours.includes(time) ? (
-          <AvailableWalkSlot time={time} bookWalkFunc={bookWalk} />
-        ) : null
-      )}
+      <ScrollView>
+        <View style={styles.container}>
+          <Text>Schedule a Walk</Text>
+          <Text>Booked Times</Text>
+          {walksBookedForTodayStartHours.map((reservationStartHour) =>
+            reservationStartHour == new Date().getHours() ? (
+              // we will build the logic for showing the current active walk on this
+              <View key={reservationStartHour}>
+                <Text>Active: {reservationStartHour}</Text>
+                <Link
+                  href={`/src/screens/group_listing/${reservationStartHour}`}
+                >
+                  People
+                </Link>
+              </View>
+            ) : (
+              <View key={reservationStartHour}>
+                <Text>{reservationStartHour}</Text>
+                <Link
+                  href={`/src/screens/group_listing/${reservationStartHour}`}
+                >
+                  People
+                </Link>
+              </View>
+            )
+          )}
+          <Text>Available Times</Text>
+          {available_times.map((time) =>
+            !walksBookedForTodayStartHours.includes(time) ? (
+              <AvailableWalkSlot time={time} bookWalkFunc={bookWalk} />
+            ) : null
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -116,11 +128,45 @@ export default ScheduleWalk;
 
 function AvailableWalkSlot({ time, bookWalkFunc }) {
   return (
-    <View key={time}>
+    <View key={time} style={styles.walkSlot}>
       <View>
         <Text style={{ textAlign: "center" }}>{time} pm </Text>
       </View>
-      <Button title="Book" onPress={() => bookWalkFunc(time)} />
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => bookWalkFunc(time)}
+      >
+        <Text style={styles.buttonText}>Book</Text>
+      </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  walkSlot: {
+    backgroundColor: "ghostwhite",
+    textAlign: "left",
+    borderRadius: 5,
+    marginVertical: 10,
+    paddingTop: 30,
+    paddingBottom: 10,
+    borderColor: "darkblue",
+    borderWidth: 2,
+  },
+  container: {
+    paddingHorizontal: 20,
+  },
+  buttonContainer: {
+    backgroundColor: "blue", // Set the background color to blue
+    paddingVertical: 12, // Vertical padding around the text
+    paddingHorizontal: 24, // Horizontal padding around the text
+    borderRadius: 5, // Border radius for rounded corners
+    marginVertical: 4,
+    marginHorizontal: 10
+  },
+  buttonText: {
+    color: "white", // Set the text color to white
+    fontSize: 16, // Font size of the text
+    textAlign: "center", // Center the text horizontally within the button
+  },
+});
