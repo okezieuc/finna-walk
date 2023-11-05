@@ -86,7 +86,7 @@ function ScheduleWalk() {
             style={{
               fontSize: 40,
               fontWeight: "bold",
-              marginTop: 20,
+              marginTop: 40,
               marginBottom: 50,
             }}
           >
@@ -153,9 +153,12 @@ function ActiveWalk({ time }) {
           {time} - {time + 1} pm{" "}
         </Text>
       </View>
-      <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>Walk</Text>
-      </TouchableOpacity>
+      <Link
+        href={`/src/screens/group_listing/${time}`}
+        style={{ ...styles.buttonContainer, color: "ghostwhite" }}
+      >
+        See your crew!
+      </Link>
     </View>
   );
 }
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
     backgroundColor: "darkblue",
     textAlign: "left",
     borderRadius: 5,
-    marginVertical: 10,
+    marginBottom: 10,
     paddingTop: 20,
     paddingBottom: 10,
     borderColor: "darkblue",
