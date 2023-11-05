@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import {
   Button,
   SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   StyleSheet,
   View,
   Image,
+  ActivityIndicator
 } from "react-native";
+import Snackbar from 'react-native-snackbar-component';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -38,6 +41,11 @@ const AuthScreen = () => {
   const [displayName, setDisplayName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [errorSnackBarVisible, setErrorSnackBarVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('')
+  
+  const [isLoading, setIsLoading] = useState(false);
+
   // if isIntroPage is true, then it is on the intro screen
   const [isIntroPage, setIsIntroPage] = useState(true);
 
@@ -45,6 +53,8 @@ const AuthScreen = () => {
   const [isSignUpPage, setIsSignUpPage] = useState(true);
 
   function signUp() {
+    setIsLoading(true);
+
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // TODO: Show a snackbar to the user if sign up is successfull
@@ -61,18 +71,27 @@ const AuthScreen = () => {
       })
       .catch((error) => {
         // TODO: Show an error message to the user if an error occurs
-        console.error(error);
+        setErrorSnackBarVisible(true)
+        setErrorMessage("Invalid email / password")
+      }).finally(() => {
+        setIsLoading(false);
       });
   }
 
   function login() {
+    setIsLoading(true)
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // display a snackbar that says that sign in is successful
       })
       .catch((error) => {
         // display a snackbar that shows an error message
-      });
+        setErrorSnackBarVisible(true)
+        setErrorMessage("Invalid email / password")
+      }).finally(() => {
+        setIsLoading(false);
+      })
   }
 
   if (isIntroPage) {
@@ -113,80 +132,87 @@ const AuthScreen = () => {
       </SafeAreaView>
     );
   }
+
+  if (isLoading) {
+    return <SafeAreaView style={{flex: 1, alignContent: 'center', justifyContent: 'center'}}><ActivityIndicator size={80}/></SafeAreaView>
+  }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.authContainer}>
       <View>
         <TouchableOpacity onPress={() => setIsIntroPage(true)}>
-          <MaterialCommunityIcons name="chevron-left" size={24}/>
+          <MaterialCommunityIcons name="chevron-left" size={styles.heroHeader.fontSize}/>
         </TouchableOpacity>
       </View>
-      <Text>{isSignUpPage ? 'Create Account With School Email' : 'Log In'}</Text>
-      <View>
-        <Text>Your email:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeEmail}
-          value={email}
-          placeholder="example@my.school.edu"
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        {isSignUpPage ? (
-          <>
-            <Text>Display Name:</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={setDisplayName}
-              value={displayName}
-              placeholder="Display Name"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </>
-        ) : null}
-
-        <Text>Password:</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangePassword}
-          value={password}
-          placeholder="Password"
-          keyboardType="default"
-          secureTextEntry={true}
-          autoCapitalize="none"
-        />
-
-        {isSignUpPage ? (
-          <>
-            <Text>Confirm Password</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={setConfirmPassword}
-              value={confirmPassword}
-              placeholder="Confirm password"
-              keyboardType="default"
-              secureTextEntry={true} />
-          </>
-        ) : null}
-
-        {isSignUpPage ? (
-          <Button title="Sign Up" onPress={signUp} disabled={!email.length || !displayName.length || !password.length || password != confirmPassword}/>
-        ) : (
-          <Button title="Log in" onPress={login} disabled={!email.length || !password}/>
-        )}
-
-        {isSignUpPage ? (
-          <Button
-            title="Already have an account?"
-            onPress={() => setIsSignUpPage(!isSignUpPage)}
+      <Text style={styles.heroHeader}>{isSignUpPage ? 'Create Account With School Email' : 'Log In'}</Text>
+      <ScrollView contentContainerStyle={{justifyContent: 'flex-end'}} style={{flex: 1, paddingHorizontal: 24, marginBottom: 80}}>
+        <View contentContainerStyle={styles.formContainer}>
+          <Text style={styles.inputHeading}>Your email:</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeEmail}
+            value={email}
+            placeholder="example@my.school.edu"
+            keyboardType="email-address"
+            autoCapitalize="none"
           />
-        ) : (
-          <Button
-            title="Don't have an account?"
-            onPress={() => setIsSignUpPage(!isSignUpPage)}
+          {isSignUpPage ? (
+            <>
+              <Text style={styles.inputHeading}>Display Name:</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={setDisplayName}
+                value={displayName}
+                placeholder="Display Name"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </>
+          ) : null}
+
+          <Text style={styles.inputHeading}>Password:</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangePassword}
+            value={password}
+            placeholder="Password"
+            keyboardType="default"
+            secureTextEntry={true}
+            autoCapitalize="none"
           />
-        )}
-      </View>
+
+          {isSignUpPage ? (
+            <>
+              <Text style={styles.inputHeading}>Confirm Password</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={setConfirmPassword}
+                value={confirmPassword}
+                placeholder="Confirm password"
+                keyboardType="default"
+                secureTextEntry={true} />
+            </>
+          ) : null}
+
+          {isSignUpPage ? (
+            <Button title="Sign Up" onPress={signUp} disabled={!email.length || !displayName.length || !password.length || password != confirmPassword}/>
+          ) : (
+            <Button title="Log in" onPress={login} disabled={!email.length || !password}/>
+          )}
+
+          {isSignUpPage ? (
+            <Text style={{textAlign: 'center'}}>Already have an account?  
+              <Text onPress={() => setIsSignUpPage(!isSignUpPage)} style={{color: 'blue'}}> Log In</Text>
+            </Text>
+          ) : (
+            <Text style={{textAlign: 'center'}}>Don't have an account? 
+              <Text onPress={() => setIsSignUpPage(!isSignUpPage)} style={{color: 'blue'}}> Sign Up</Text>
+            </Text>
+          )}
+        </View>
+      </ScrollView>
+
+      <Snackbar visible={errorSnackBarVisible} textMessage={errorMessage} 
+      actionHandler={() => {setErrorSnackBarVisible(false)}} autoHidingTime={3000} actionText='OK' messageColor='red' accentColor="white"/>
     </SafeAreaView>
   );
 };
@@ -241,5 +267,16 @@ const styles = StyleSheet.create({
     color: "white", // Set the text color to white
     fontSize: 16, // Font size of the text
     textAlign: "center", // Center the text horizontally within the button
+  },
+  inputHeading: {
+    marginTop: 20,
+    fontSize: 24,
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  authContainer: {
+    flex: 1
   },
 });
