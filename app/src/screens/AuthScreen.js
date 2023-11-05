@@ -5,6 +5,8 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  View,
+  Image
 } from "react-native";
 import {
   getAuth,
@@ -13,11 +15,22 @@ import {
 } from "firebase/auth";
 
 import app from "../services/auth";
+import walker_img from '../assets/imgs/walker.jpg'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+import {router} from 'expo-router';
+
 const auth = getAuth(app);
 
 const AuthScreen = () => {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  // if isIntroPage is true, then it is on the intro screen
+  const [isIntroPage, setIsIntroPage] = useState(true);
 
   // if isSignUpPage is true, then we are sigining a user up
   const [isSignUpPage, setIsSignUpPage] = useState(true);
@@ -44,8 +57,25 @@ const AuthScreen = () => {
       });
   }
 
+  if (isIntroPage) {
+    return (
+      <SafeAreaView>
+        <View>
+          <Image source={walker_img} style={{width: 400, height:400}}/>
+        </View>
+        <Text>You don't need to walk alone.</Text>
+        <Button onPress={() => {setIsIntroPage(false); setIsSignUpPage(false);}}title="Login" />
+        <Button onPress={() => {setIsIntroPage(false); setIsSignUpPage(true);}}title="Sign Up" />
+      </SafeAreaView>
+    )
+  }
   return (
     <SafeAreaView>
+      <View>
+        <TouchableOpacity onPress={() => setIsIntroPage(true)}>
+          <MaterialCommunityIcons name="arrow-left" size={40}/>
+        </TouchableOpacity>
+      </View>
       <Text>FinnaWalk</Text>
       <TextInput
         style={styles.input}
@@ -54,6 +84,15 @@ const AuthScreen = () => {
         placeholder="College Email"
         keyboardType="email-address"
       />
+      {isSignUpPage ? (
+        <TextInput
+          style={styles.input}
+          onChangeText={setDisplayName}
+          value={displayName}
+          placeholder="Display Name"
+          keyboardType="email-address"
+        />
+      ) : null}
       <TextInput
         style={styles.input}
         onChangeText={onChangePassword}
@@ -62,11 +101,20 @@ const AuthScreen = () => {
         keyboardType="default"
         secureTextEntry={true}
       />
+      {isSignUpPage ? (
+        <TextInput
+          style={styles.input}
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
+          placeholder="Confirm password"
+          keyboardType="default"
+          secureTextEntry={true} />
+      ) : null}
 
       {isSignUpPage ? (
-        <Button title="Sign Up" onPress={signUp} />
+        <Button title="Sign Up" onPress={signUp} disabled={!email.length || !displayName.length || !password.length || password != confirmPassword}/>
       ) : (
-        <Button title="Log in" onPress={login} />
+        <Button title="Log in" onPress={login} disabled={!email.length || !password}/>
       )}
 
       {isSignUpPage ? (
