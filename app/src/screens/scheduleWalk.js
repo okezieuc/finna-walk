@@ -96,7 +96,10 @@ function ScheduleWalk() {
             {walksBookedForTodayStartHours.map((reservationStartHour) =>
               reservationStartHour == new Date().getHours() ? (
                 // we will build the logic for showing the current active walk on this
-                <ActiveWalk time={reservationStartHour} />
+                <ActiveWalk
+                  time={reservationStartHour}
+                  key={reservationStartHour}
+                />
               ) : null
             )}
           </View>
@@ -109,7 +112,10 @@ function ScheduleWalk() {
             </Text>
             {walksBookedForTodayStartHours.map((reservationStartHour) =>
               reservationStartHour == new Date().getHours() ? null : ( // we will build the logic for showing the current active walk on this
-                <UpcomingWalk reservationStartHour={reservationStartHour} />
+                <UpcomingWalk
+                  reservationStartHour={reservationStartHour}
+                  key={reservationStartHour}
+                />
               )
             )}
           </View>
@@ -118,7 +124,11 @@ function ScheduleWalk() {
           </Text>
           {available_times.map((time) =>
             !walksBookedForTodayStartHours.includes(time) ? (
-              <AvailableWalkSlot time={time} bookWalkFunc={bookWalk} />
+              <AvailableWalkSlot
+                time={time}
+                bookWalkFunc={bookWalk}
+                key={time}
+              />
             ) : null
           )}
         </View>
