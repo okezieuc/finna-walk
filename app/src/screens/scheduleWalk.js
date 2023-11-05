@@ -17,6 +17,7 @@ function ScheduleWalk() {
         {
           for: auth.currentUser.uid,
           time: getDateTimeForStartingAfternoonHour(startHour),
+          day: new Date().toDateString(),
         }
       );
 
