@@ -75,6 +75,11 @@ export default function Page() {
       <Text style={{ marginBottom: 10 }}>
         {start_hour}:00 - {parseInt(start_hour) + 1}:00
       </Text>
+      <View style={styles.message}>
+        <Text style={{ color: "ghostwhite" }}>
+          Meet your crew in front of the Fisk Memorial Chapel. And have fun!
+        </Text>
+      </View>
       {walkingGroupMembers.map((person) => (
         <View key={person} style={styles.walkPartner}>
           <Text>{walkingGroupProfiles[person].name}</Text>
@@ -90,8 +95,19 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 10,
     paddingTop: 20,
-    paddingBottom: 10,
+    paddingBottom: 20,
     borderColor: "darkblue",
+    borderWidth: 2,
+    paddingHorizontal: 10,
+  },
+  message: {
+    backgroundColor: "darkblue",
+    textAlign: "left",
+    borderRadius: 5,
+    marginVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    borderColor: " ghostwhite",
     borderWidth: 2,
     paddingHorizontal: 10,
   },
