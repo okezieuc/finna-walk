@@ -1,14 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-
 import React, { useState, useEffect} from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
-  View,
-  Button
+  Button,
+  View
 } from 'react-native';
+
+import { Link } from 'expo-router'
 
 import app from './src/services/auth.js'
 import { getAuth, onAuthStateChanged, signOut} from 'firebase/auth';
@@ -32,6 +31,12 @@ const App = () => {
   }, [])
 
   if (initializing) return null;
+
+  return (
+    <View>
+      <Link href='/src/components/test'>Test</Link>
+    </View>
+  )
 
   if ( !user ) return <AuthScreen />;
 

@@ -1,4 +1,3 @@
-
 import { StatusBar } from 'expo-status-bar';
 
 import React, { useState, useEffect } from 'react';
@@ -11,14 +10,16 @@ import {
 } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-const AuthScreen = () => {
+
+const SignupPage = () => {
     return (
-        <SafeAreaView>
-            <Text>
-                Hadsk
-            </Text>
-        </SafeAreaView>
+        <View>
+
+        </View>
     )
 }
 
-export default AuthScreen;
+const signUp = () => {
+    
+}
+
