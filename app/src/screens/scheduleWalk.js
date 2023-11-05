@@ -1,4 +1,11 @@
-import { View, Text, Button } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import {
   collection,
   addDoc,
@@ -72,41 +79,60 @@ function ScheduleWalk() {
   }, []);
 
   return (
-    <View>
-      <Text>Schedule a Walk</Text>
-
-      <Text>Booked Times</Text>
-      {walksBookedForTodayStartHours.map((reservationStartHour) =>
-        reservationStartHour == new Date().getHours() ? (
-          // we will build the logic for showing the current active walk on this
-          <View key={reservationStartHour}>
-            <Text>Active: {reservationStartHour}</Text>
-            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>
-              People
-            </Link>
+    <View styles={styles.scrollView}>
+      <ScrollView styles={styles.scrollView}>
+        <View style={styles.container}>
+          <Text
+            style={{
+              fontSize: 40,
+              fontWeight: "bold",
+              marginTop: 40,
+              marginBottom: 50,
+            }}
+          >
+            Finna'Walk
+          </Text>
+          <View style={{ marginBottom: 40 }}>
+            {walksBookedForTodayStartHours.map((reservationStartHour) =>
+              reservationStartHour == new Date().getHours() ? (
+                // we will build the logic for showing the current active walk on this
+                <ActiveWalk
+                  time={reservationStartHour}
+                  key={reservationStartHour}
+                />
+              ) : null
+            )}
           </View>
-        ) : (
-          <View key={reservationStartHour}>
-            <Text>{reservationStartHour}</Text>
-            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>
-              People
-            </Link>
-          </View>
-        )
-      )}
 
-      <Text>Available Times</Text>
-
-      {available_times.map((time) =>
-        !walksBookedForTodayStartHours.includes(time) ? (
-          <View key={time}>
-            <View>
-              <Text style={{ textAlign: "center" }}>{time} pm </Text>
-            </View>
-            <Button title="Book" onPress={() => bookWalk(time)} />
+          <View style={{ marginBottom: 40 }}>
+            <Text
+              style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}
+            >
+              Upcoming Walks
+            </Text>
+            {walksBookedForTodayStartHours.map((reservationStartHour) =>
+              reservationStartHour == new Date().getHours() ? null : ( // we will build the logic for showing the current active walk on this
+                <UpcomingWalk
+                  reservationStartHour={reservationStartHour}
+                  key={reservationStartHour}
+                />
+              )
+            )}
           </View>
-        ) : null
-      )}
+          <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
+            Available Times
+          </Text>
+          {available_times.map((time) =>
+            !walksBookedForTodayStartHours.includes(time) ? (
+              <AvailableWalkSlot
+                time={time}
+                bookWalkFunc={bookWalk}
+                key={time}
+              />
+            ) : null
+          )}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -118,3 +144,117 @@ function getDateTimeForStartingAfternoonHour(hour) {
 }
 
 export default ScheduleWalk;
+
+function ActiveWalk({ time }) {
+  return (
+    <View key={time} style={styles.activeWalk}>
+      <View style={{ paddingLeft: 10, marginBottom: 60 }}>
+        <Text
+          style={{
+            textAlign: "left",
+            fontSize: 30,
+            fontWeight: "bold",
+            color: "ghostwhite",
+          }}
+        >
+          Walk {time - 14}
+        </Text>
+        <Text style={{ textAlign: "left", fontSize: 15, color: "ghostwhite" }}>
+          {time} - {time + 1} pm{" "}
+        </Text>
+      </View>
+      <Link
+        href={`/src/screens/group_listing/${time}`}
+        style={{ ...styles.buttonContainer, color: "ghostwhite" }}
+      >
+        See your crew!
+      </Link>
+    </View>
+  );
+}
+
+function AvailableWalkSlot({ time, bookWalkFunc }) {
+  return (
+    <View key={time} style={styles.walkSlot}>
+      <View style={{ paddingLeft: 10, marginBottom: 30 }}>
+        <Text style={{ textAlign: "left", fontSize: 30, fontWeight: "bold" }}>
+          Walk {time - 14}
+        </Text>
+        <Text style={{ textAlign: "left", fontSize: 15 }}>
+          {time} - {time + 1} pm{" "}
+        </Text>
+      </View>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={() => bookWalkFunc(time)}
+      >
+        <Text style={styles.buttonText}>Walk</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function UpcomingWalk({ reservationStartHour }) {
+  return (
+    <View key={reservationStartHour} style={styles.walkSlot}>
+      <View style={{ paddingLeft: 10, marginBottom: 30 }}>
+        <Text
+          style={{
+            textAlign: "left",
+            fontSize: 30,
+            fontWeight: "bold",
+            color: "black",
+          }}
+        >
+          Walk {reservationStartHour - 14}
+        </Text>
+        <Text style={{ textAlign: "left", fontSize: 15 }}>
+          {reservationStartHour}:00 - {reservationStartHour + 1}:00 pm{" "}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  walkSlot: {
+    backgroundColor: "ghostwhite",
+    textAlign: "left",
+    borderRadius: 5,
+    marginVertical: 10,
+    paddingTop: 20,
+    paddingBottom: 10,
+    borderColor: "darkblue",
+    borderWidth: 2,
+  },
+  activeWalk: {
+    backgroundColor: "darkblue",
+    textAlign: "left",
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingTop: 20,
+    paddingBottom: 10,
+    borderColor: "darkblue",
+    borderWidth: 2,
+    color: "ghostwhite",
+  },
+  container: {
+    paddingHorizontal: 20,
+  },
+  buttonContainer: {
+    backgroundColor: "blue", // Set the background color to blue
+    paddingVertical: 12, // Vertical padding around the text
+    paddingHorizontal: 24, // Horizontal padding around the text
+    borderRadius: 5, // Border radius for rounded corners
+    marginVertical: 4,
+    marginHorizontal: 10,
+  },
+  buttonText: {
+    color: "white", // Set the text color to white
+    fontSize: 16, // Font size of the text
+    textAlign: "left", // Center the text horizontally within the button
+  },
+  scrollView: {
+    flex: 1,
+  },
+});

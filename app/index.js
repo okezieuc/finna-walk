@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 
-import { Link, Stack } from "expo-router";
+import { Link, Redirect } from "expo-router";
 
 import app from "./src/services/auth.js";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -33,6 +33,8 @@ const App = () => {
   if (initializing) return null;
 
   if (!user) return <AuthScreen />;
+
+  return <Redirect href="/src/screens/scheduleWalk" />;
 
   return (
     <SafeAreaView>
