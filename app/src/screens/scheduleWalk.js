@@ -82,26 +82,28 @@ function ScheduleWalk() {
     <View styles={styles.scrollView}>
       <ScrollView styles={styles.scrollView}>
         <View style={styles.container}>
-          <Text>Schedule a Walk</Text>
-          <View style={{ marginBottom: 40}}>
-          <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
-            Upcoming Walks
-          </Text>
-          {walksBookedForTodayStartHours.map((reservationStartHour) =>
-            reservationStartHour == new Date().getHours() ? (
-              // we will build the logic for showing the current active walk on this
-              <View key={reservationStartHour}>
-                <Text>Active: {reservationStartHour}</Text>
-                <Link
-                  href={`/src/screens/group_listing/${reservationStartHour}`}
-                >
-                  People
-                </Link>
-              </View>
-            ) : (
-              <UpcomingWalk reservationStartHour={reservationStartHour} />
-            )
-          )}
+          <Text style={{ fontSize: 40, fontWeight: "bold", marginTop: 20, marginBottom: 50 }}>FinnaWalk</Text>
+          <View style={{ marginBottom: 40 }}>
+            <Text
+              style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}
+            >
+              Upcoming Walks
+            </Text>
+            {walksBookedForTodayStartHours.map((reservationStartHour) =>
+              reservationStartHour == new Date().getHours() ? (
+                // we will build the logic for showing the current active walk on this
+                <View key={reservationStartHour}>
+                  <Text>Active: {reservationStartHour}</Text>
+                  <Link
+                    href={`/src/screens/group_listing/${reservationStartHour}`}
+                  >
+                    People
+                  </Link>
+                </View>
+              ) : (
+                <UpcomingWalk reservationStartHour={reservationStartHour} />
+              )
+            )}
           </View>
           <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
             Available Times
@@ -140,7 +142,7 @@ function AvailableWalkSlot({ time, bookWalkFunc }) {
         style={styles.buttonContainer}
         onPress={() => bookWalkFunc(time)}
       >
-        <Text style={styles.buttonText}>Book</Text>
+        <Text style={styles.buttonText}>Walk</Text>
       </TouchableOpacity>
     </View>
   );
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white", // Set the text color to white
     fontSize: 16, // Font size of the text
-    textAlign: "center", // Center the text horizontally within the button
+    textAlign: "left", // Center the text horizontally within the button
   },
   scrollView: {
     flex: 1,
