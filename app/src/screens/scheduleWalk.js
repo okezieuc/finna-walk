@@ -99,12 +99,7 @@ function ScheduleWalk() {
 
       {available_times.map((time) =>
         !walksBookedForTodayStartHours.includes(time) ? (
-          <View key={time}>
-            <View>
-              <Text style={{ textAlign: "center" }}>{time} pm </Text>
-            </View>
-            <Button title="Book" onPress={() => bookWalk(time)} />
-          </View>
+          <AvailableWalkSlot time={time} bookWalkFunc={bookWalk} />
         ) : null
       )}
     </View>
@@ -118,3 +113,14 @@ function getDateTimeForStartingAfternoonHour(hour) {
 }
 
 export default ScheduleWalk;
+
+function AvailableWalkSlot({ time, bookWalkFunc }) {
+  return (
+    <View key={time}>
+      <View>
+        <Text style={{ textAlign: "center" }}>{time} pm </Text>
+      </View>
+      <Button title="Book" onPress={() => bookWalkFunc(time)} />
+    </View>
+  );
+}
