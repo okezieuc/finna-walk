@@ -8,6 +8,7 @@ import {
   where,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { Link } from "expo-router";
 
 import app from "../services/auth";
 import { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 function ScheduleWalk() {
-  const available_times = [15, 16, 17, 18, 19];
+  const available_times = [4, 15, 16, 17, 18, 19];
   const [walksBookedForTodayStartHours, setWalksBookedForTodayStartHours] =
     useState([]);
 
@@ -78,7 +79,10 @@ function ScheduleWalk() {
       {walksBookedForTodayStartHours.map((reservationStartHour) =>
         reservationStartHour == new Date().getHours() ? (
           // we will build the logic for showing the current active walk on this
-          <Text key={reservationStartHour}>Active: {reservationStartHour}</Text>
+          <View key={reservationStartHour}>
+            <Text>Active: {reservationStartHour}</Text>
+            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>People</Link>
+          </View>
         ) : (
           <Text key={reservationStartHour}>{reservationStartHour}</Text>
         )
