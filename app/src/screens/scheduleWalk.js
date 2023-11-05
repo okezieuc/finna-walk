@@ -32,7 +32,7 @@ function ScheduleWalk() {
       <Text>Schedule a Walk</Text>
 
       {available_times.map((time) => (
-        <View>
+        <View key={time}>
           <View>
             <Text style={{ textAlign: "center" }}>{time} pm</Text>
           </View>
