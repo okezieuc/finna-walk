@@ -17,8 +17,11 @@ import {
 import { getAuth } from "firebase/auth";
 import { Link } from "expo-router";
 
+import Bottom_Bar from "./Bottom_Bar";
+
 import app from "../services/auth";
 import { useEffect, useState } from "react";
+import Top_Bar from "./Top_Bar";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
@@ -81,6 +84,7 @@ function ScheduleWalk() {
 
   return (
     <View styles={styles.scrollView}>
+      <Top_Bar />
       <ScrollView styles={styles.scrollView}>
         <View style={styles.container}>
           <Text
@@ -134,6 +138,7 @@ function ScheduleWalk() {
           )}
         </View>
       </ScrollView>
+      <Bottom_Bar currentPage={0}/>
     </View>
   );
 }
@@ -256,6 +261,6 @@ const styles = StyleSheet.create({
     textAlign: "left", // Center the text horizontally within the button
   },
   scrollView: {
-    flex: 1,
+    
   },
 });

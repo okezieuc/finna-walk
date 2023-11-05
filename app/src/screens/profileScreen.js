@@ -14,6 +14,8 @@ import { getAuth } from "firebase/auth";
 
 import { router } from "expo-router";
 
+import Bottom_Bar from "./Bottom_Bar";
+
 import app from "../services/auth";
 import { useEffect, useState } from "react";
 const auth = getAuth(app);
@@ -38,6 +40,7 @@ const ProfileScreen = () => {
             <SafeAreaView>
                 <View>
                     <Text>{data ? JSON.stringify(data): null}</Text>
+                    <Bottom_Bar currentPage={1}/>
                 </View>
             </SafeAreaView>
         </>
