@@ -81,10 +81,17 @@ function ScheduleWalk() {
           // we will build the logic for showing the current active walk on this
           <View key={reservationStartHour}>
             <Text>Active: {reservationStartHour}</Text>
-            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>People</Link>
+            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>
+              People
+            </Link>
           </View>
         ) : (
-          <Text key={reservationStartHour}>{reservationStartHour}</Text>
+          <View key={reservationStartHour}>
+            <Text>{reservationStartHour}</Text>
+            <Link href={`/src/screens/group_listing/${reservationStartHour}`}>
+              People
+            </Link>
+          </View>
         )
       )}
 
