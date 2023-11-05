@@ -60,7 +60,8 @@ function ScheduleWalk() {
       const walkReservationsRef = collection(db, "session_reservations");
       const walksBookedTodayQuery = query(
         walkReservationsRef,
-        where("day", "==", new Date().toDateString())
+        where("day", "==", new Date().toDateString()),
+        where("for", "==", auth.currentUser.uid)
       );
 
       const querySnapshot = await getDocs(walksBookedTodayQuery);
