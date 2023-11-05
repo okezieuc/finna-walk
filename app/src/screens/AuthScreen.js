@@ -14,6 +14,10 @@ import {
   signInWithEmailAndPassword,
   updateProfile
 } from "firebase/auth";
+import {
+  getFirestore, setDoc, doc, addDoc, collection
+} from "firebase/firestore"
+
 
 import app from "../services/auth";
 import walker_img from '../assets/imgs/walker.jpg'
@@ -23,6 +27,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {router} from 'expo-router';
 
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const AuthScreen = () => {
   const [email, onChangeEmail] = useState("");
@@ -42,10 +47,20 @@ const AuthScreen = () => {
         // TODO: Show a snackbar to the user if sign up is successfull
         // TODO: Redirect a user to an onboarding page after they create
         // their account.
-        updateProfile(userCredential.user, {displayName: displayName})
+        return setDoc(
+          doc(db, "profiles", userCredential.user.uid),
+          {
+            user_id: userCredential.user.uid,
+            name: displayName,
+            rating: 5
+          }
+        )
+      }).then((ref) => {
+        console.log(ref)
       })
       .catch((error) => {
         // TODO: Show an error message to the user if an error occurs
+        console.error(error)
       });
   }
 
