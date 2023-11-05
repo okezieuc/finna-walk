@@ -21,6 +21,11 @@ Ready to step up your fitness game while making friends? Join Finna'Walk now and
 Download Finna'Walk and begin your adventure towards a healthier and more connected lifestyle.
 
 # Future Features
+- Rating system for security
+- Restricting sign ups to students with .edu emails
+- Dashboards for campus security to view live locations of students on walks
+- Points system, redeemable at on-campus stores.
+- Extension beyond going on walks and including other activities like going to the gym.
 - Allow chatting and messaging with friends
 - Prompt users to enable push notifications
 - Broader user circle - include communities, businesses, etc
@@ -38,3 +43,16 @@ Finna’Walk Mockup - [Here](https://drive.google.com/file/d/1-paQe-U3G41XbjotWI
 - Benjamin Bamisile
 - Ugonna Nwaka
 
+# Screenshots
+## Landing page
+![Landing page](https://github.com/okezieuc/finna-walk/assets/53785400/14f898b0-0fd0-4bca-adf8-f36626be84d0)
+
+## Book a walk
+![Book a walk](https://github.com/okezieuc/finna-walk/assets/53785400/8a278acc-6f54-4bfc-9bd0-b5172dd493e2)
+
+## Login Page
+![Login Page](https://github.com/okezieuc/finna-walk/assets/53785400/b66e2c34-27cb-4dcd-98d4-35f98ca800ea)
+
+## Prompt to view crew
+- When it is time to take a walk, you will see a prompt to view your crew. Your crew is a list of people in your team
+![Prompt to view crew](https://github.com/okezieuc/finna-walk/assets/53785400/e629dc39-74ac-4977-94b4-66ae19905fec)
