@@ -5,9 +5,12 @@ import {
   StyleSheet,
   Button,
   View,
+  Text
 } from "react-native";
 
-import { Link, Stack } from "expo-router";
+import { Link} from "expo-router";
+import Bottom_Bar from "./src/screens/Bottom_Bar.js";
+import Top_Bar from "./src/screens/Top_Bar.js";
 
 import app from "./src/services/auth.js";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -36,17 +39,11 @@ const App = () => {
 
   return (
     <SafeAreaView>
+      <Top_Bar />
       <ScrollView>
-        <Link href="/src/screens/scheduleWalk">Schedule Walk</Link>
-        <Link href="/src/screens/profileScreen">Profile</Link>
         <View style={{ height: 100 }} />
-        <Button
-          onPress={() => {
-            signOut(auth);
-          }}
-          title="Sign Out"
-        />
       </ScrollView>
+      <Bottom_Bar currentPage={0}/>
     </SafeAreaView>
   );
 };

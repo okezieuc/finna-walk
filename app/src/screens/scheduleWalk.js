@@ -10,8 +10,11 @@ import {
 import { getAuth } from "firebase/auth";
 import { Link } from "expo-router";
 
+import Bottom_Bar from "./Bottom_Bar";
+
 import app from "../services/auth";
 import { useEffect, useState } from "react";
+import Top_Bar from "./Top_Bar";
 const auth = getAuth(app);
 const db = getFirestore(app);
 
@@ -73,6 +76,8 @@ function ScheduleWalk() {
 
   return (
     <View>
+      <Top_Bar />
+      
       <Text>Schedule a Walk</Text>
 
       <Text>Booked Times</Text>
@@ -107,6 +112,7 @@ function ScheduleWalk() {
           </View>
         ) : null
       )}
+      <Bottom_Bar currentPage={0}/>
     </View>
   );
 }
