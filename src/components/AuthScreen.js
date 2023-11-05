@@ -1,16 +1,16 @@
 
 import { StatusBar } from 'expo-status-bar';
 
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Button
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+    Button
 } from 'react-native';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 const AuthScreen = () => {
     return (
         <SafeAreaView>
