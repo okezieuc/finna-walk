@@ -117,75 +117,76 @@ const AuthScreen = () => {
     <SafeAreaView style={styles.container}>
       <View>
         <TouchableOpacity onPress={() => setIsIntroPage(true)}>
-          <MaterialCommunityIcons name="arrow-left" size={40} />
+          <MaterialCommunityIcons name="chevron-left" size={24}/>
         </TouchableOpacity>
       </View>
-      <Text>FinnaWalk</Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeEmail}
-        value={email}
-        placeholder="College Email"
-        keyboardType="email-address"
-      />
-      {isSignUpPage ? (
+      <Text>{isSignUpPage ? 'Create Account With School Email' : 'Log In'}</Text>
+      <View>
+        <Text>Your email:</Text>
         <TextInput
           style={styles.input}
-          onChangeText={setDisplayName}
-          value={displayName}
-          placeholder="Display Name"
+          onChangeText={onChangeEmail}
+          value={email}
+          placeholder="example@my.school.edu"
           keyboardType="email-address"
+          autoCapitalize="none"
         />
-      ) : null}
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangePassword}
-        value={password}
-        placeholder="Password"
-        keyboardType="default"
-        secureTextEntry={true}
-      />
-      {isSignUpPage ? (
+        {isSignUpPage ? (
+          <>
+            <Text>Display Name:</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={setDisplayName}
+              value={displayName}
+              placeholder="Display Name"
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </>
+        ) : null}
+
+        <Text>Password:</Text>
         <TextInput
           style={styles.input}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          placeholder="Confirm password"
+          onChangeText={onChangePassword}
+          value={password}
+          placeholder="Password"
           keyboardType="default"
           secureTextEntry={true}
+          autoCapitalize="none"
         />
-      ) : null}
 
-      {isSignUpPage ? (
-        <Button
-          title="Sign Up"
-          onPress={signUp}
-          disabled={
-            !email.length ||
-            !displayName.length ||
-            !password.length ||
-            password != confirmPassword
-          }
-        />
-      ) : (
-        <Button
-          title="Log in"
-          onPress={login}
-          disabled={!email.length || !password}
-        />
-      )}
+        {isSignUpPage ? (
+          <>
+            <Text>Confirm Password</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={setConfirmPassword}
+              value={confirmPassword}
+              placeholder="Confirm password"
+              keyboardType="default"
+              secureTextEntry={true} />
+          </>
+        ) : null}
 
-      {isSignUpPage ? (
-        <Button
-          title="Already have an account?"
-          onPress={() => setIsSignUpPage(!isSignUpPage)}
-        />
-      ) : (
-        <Button
-          title="Don't have an account?"
-          onPress={() => setIsSignUpPage(!isSignUpPage)}
-        />
-      )}
+        {isSignUpPage ? (
+          <Button title="Sign Up" onPress={signUp} disabled={!email.length || !displayName.length || !password.length || password != confirmPassword}/>
+        ) : (
+          <Button title="Log in" onPress={login} disabled={!email.length || !password}/>
+        )}
+
+        {isSignUpPage ? (
+          <Button
+            title="Already have an account?"
+            onPress={() => setIsSignUpPage(!isSignUpPage)}
+          />
+        ) : (
+          <Button
+            title="Don't have an account?"
+            onPress={() => setIsSignUpPage(!isSignUpPage)}
+          />
+        )}
+      </View>
     </SafeAreaView>
   );
 };
