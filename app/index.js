@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 
-import { Link } from "expo-router";
+import { Link, Stack } from "expo-router";
 
 import app from "./src/services/auth.js";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
