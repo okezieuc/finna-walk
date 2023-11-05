@@ -79,8 +79,8 @@ function ScheduleWalk() {
   }, []);
 
   return (
-    <View>
-      <ScrollView>
+    <View styles={styles.scrollView}>
+      <ScrollView styles={styles.scrollView}>
         <View style={styles.container}>
           <Text>Schedule a Walk</Text>
           <Text>Booked Times</Text>
@@ -106,7 +106,9 @@ function ScheduleWalk() {
               </View>
             )
           )}
-          <Text>Available Times</Text>
+          <Text style={{ fontSize: 24, fontWeight: "bold", marginBottom: 20 }}>
+            Available Times
+          </Text>
           {available_times.map((time) =>
             !walksBookedForTodayStartHours.includes(time) ? (
               <AvailableWalkSlot time={time} bookWalkFunc={bookWalk} />
@@ -129,8 +131,13 @@ export default ScheduleWalk;
 function AvailableWalkSlot({ time, bookWalkFunc }) {
   return (
     <View key={time} style={styles.walkSlot}>
-      <View>
-        <Text style={{ textAlign: "center" }}>{time} pm </Text>
+      <View style={{ paddingLeft: 10, marginBottom: 30 }}>
+        <Text style={{ textAlign: "left", fontSize: 30, fontWeight: "bold" }}>
+          Walk {time - 14}
+        </Text>
+        <Text style={{ textAlign: "left", fontSize: 15 }}>
+          {time} - {time + 1} pm{" "}
+        </Text>
       </View>
       <TouchableOpacity
         style={styles.buttonContainer}
@@ -148,7 +155,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
     borderRadius: 5,
     marginVertical: 10,
-    paddingTop: 30,
+    paddingTop: 20,
     paddingBottom: 10,
     borderColor: "darkblue",
     borderWidth: 2,
@@ -162,11 +169,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24, // Horizontal padding around the text
     borderRadius: 5, // Border radius for rounded corners
     marginVertical: 4,
-    marginHorizontal: 10
+    marginHorizontal: 10,
   },
   buttonText: {
     color: "white", // Set the text color to white
     fontSize: 16, // Font size of the text
     textAlign: "center", // Center the text horizontally within the button
+  },
+  scrollView: {
+    flex: 1,
   },
 });
