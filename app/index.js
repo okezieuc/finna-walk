@@ -38,6 +38,7 @@ const App = () => {
     <SafeAreaView>
       <ScrollView>
         <Link href="/src/screens/scheduleWalk">Schedule Walk</Link>
+        <Link href="/src/screens/profileScreen">Profile</Link>
         <View style={{ height: 100 }} />
         <Button
           onPress={() => {
