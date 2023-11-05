@@ -8,6 +8,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { Stack } from 'expo-router';
+
 import { getAuth } from "firebase/auth";
 
 import { router } from "expo-router";
@@ -31,11 +33,14 @@ const ProfileScreen = () => {
     }, [])
 
     return (
-        <SafeAreaView>
-            <View>
-                <Text>{data ? JSON.stringify(data): null}</Text>
-            </View>
-        </SafeAreaView>
+        <>
+            <Stack.Screen />
+            <SafeAreaView>
+                <View>
+                    <Text>{data ? JSON.stringify(data): null}</Text>
+                </View>
+            </SafeAreaView>
+        </>
     )
 }
 
