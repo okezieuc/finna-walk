@@ -8,7 +8,7 @@ import {
   Text
 } from "react-native";
 
-import { Link} from "expo-router";
+import { Link, Redirect} from "expo-router";
 import Bottom_Bar from "./src/screens/Bottom_Bar.js";
 import Top_Bar from "./src/screens/Top_Bar.js";
 
@@ -36,6 +36,8 @@ const App = () => {
   if (initializing) return null;
 
   if (!user) return <AuthScreen />;
+
+  return <Redirect href="/src/screens/scheduleWalk" />;
 
   return (
     <SafeAreaView>

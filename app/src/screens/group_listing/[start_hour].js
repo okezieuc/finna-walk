@@ -63,7 +63,7 @@ export default function Page() {
     <View>
       <Text>Walk Start Time: {start_hour}</Text>
       {walkingGroupMembers.map((person) => (
-        <Text>{walkingGroupProfiles[person].name}</Text>
+        <Text key={person}>{walkingGroupProfiles[person].name}</Text>
       ))}
     </View>
   );
