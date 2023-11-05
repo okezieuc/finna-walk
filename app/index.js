@@ -32,12 +32,6 @@ const App = () => {
 
   if (initializing) return null;
 
-  return (
-    <View>
-      <Link href='/src/components/test'>Test</Link>
-    </View>
-  )
-
   if ( !user ) return <AuthScreen />;
 
   return (
