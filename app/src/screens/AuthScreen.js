@@ -6,25 +6,28 @@ import {
   TextInput,
   StyleSheet,
   View,
-  Image
+  Image,
 } from "react-native";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile
+  updateProfile,
 } from "firebase/auth";
 import {
-  getFirestore, setDoc, doc, addDoc, collection
-} from "firebase/firestore"
-
+  getFirestore,
+  setDoc,
+  doc,
+  addDoc,
+  collection,
+} from "firebase/firestore";
 
 import app from "../services/auth";
-import walker_img from '../assets/imgs/walker.jpg'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import walker_img from "../assets/imgs/walker.png";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import {router} from 'expo-router';
+import { router } from "expo-router";
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -33,7 +36,7 @@ const AuthScreen = () => {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   // if isIntroPage is true, then it is on the intro screen
   const [isIntroPage, setIsIntroPage] = useState(true);
@@ -47,20 +50,18 @@ const AuthScreen = () => {
         // TODO: Show a snackbar to the user if sign up is successfull
         // TODO: Redirect a user to an onboarding page after they create
         // their account.
-        return setDoc(
-          doc(db, "profiles", userCredential.user.uid),
-          {
-            user_id: userCredential.user.uid,
-            name: displayName,
-            rating: 5
-          }
-        )
-      }).then((ref) => {
-        console.log(ref)
+        return setDoc(doc(db, "profiles", userCredential.user.uid), {
+          user_id: userCredential.user.uid,
+          name: displayName,
+          rating: 5,
+        });
+      })
+      .then((ref) => {
+        console.log(ref);
       })
       .catch((error) => {
         // TODO: Show an error message to the user if an error occurs
-        console.error(error)
+        console.error(error);
       });
   }
 
@@ -77,17 +78,43 @@ const AuthScreen = () => {
   if (isIntroPage) {
     return (
       <SafeAreaView>
-        <View>
-          <Image source={walker_img} style={{width: 400, height:400}}/>
+        <View style={styles.pageContainer}>
+          <Text style={styles.heroHeader}>Finna'Walk</Text>
+          <View>
+            <Image source={walker_img} style={styles.coverImage} />
+          </View>
+          <Text style={styles.heading}>You don't need to walk alone.</Text>
+          <Text style={styles.subtitle}>
+            Make friends. Achieve Milestones. Stay fit.
+          </Text>
+          <View style={{ marginTop: 24 }}>
+            <TouchableOpacity
+              style={styles.authPageSelectorButtonContainer}
+              onPress={() => {
+                setIsIntroPage(false);
+                setIsSignUpPage(false);
+              }}
+            >
+              <Text style={styles.authPageSelectorButtonText}>Sign in</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.authPageSelectorButtonContainer}
+              onPress={() => {
+                setIsIntroPage(false);
+                setIsSignUpPage(true);
+              }}
+            >
+              <Text style={styles.authPageSelectorButtonText}>
+                Sign up with email
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <Text>You don't need to walk alone.</Text>
-        <Button onPress={() => {setIsIntroPage(false); setIsSignUpPage(false);}}title="Login" />
-        <Button onPress={() => {setIsIntroPage(false); setIsSignUpPage(true);}}title="Sign Up" />
       </SafeAreaView>
-    )
+    );
   }
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View>
         <TouchableOpacity onPress={() => setIsIntroPage(true)}>
           <MaterialCommunityIcons name="chevron-left" size={24}/>
@@ -172,5 +199,47 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+  },
+  coverImage: {
+    width: 300,
+    height: 300,
+    marginHorizontal: "auto",
+    marginTop: 50,
+  },
+  heroHeader: {
+    marginTop: 20,
+    fontSize: 40,
+    textAlign: "center",
+    fontWeight: "800",
+  },
+  pageContainer: {
+    paddingHorizontal: 30,
+  },
+  heading: {
+    marginTop: 20,
+    marginBottom: 20,
+    fontSize: 24,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "400",
+    textAlign: "center",
+  },
+  authPageSelectorButton: {
+    color: "#fff",
+  },
+  authPageSelectorButtonContainer: {
+    backgroundColor: "blue", // Set the background color to blue
+    paddingVertical: 12, // Vertical padding around the text
+    paddingHorizontal: 24, // Horizontal padding around the text
+    borderRadius: 8, // Border radius for rounded corners
+    marginVertical: 4,
+  },
+  authPageSelectorButtonText: {
+    color: "white", // Set the text color to white
+    fontSize: 16, // Font size of the text
+    textAlign: "center", // Center the text horizontally within the button
   },
 });
