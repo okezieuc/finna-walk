@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         borderTopWidth: 4,
-        borderColor: 'blue'
+        borderColor: 'blue',
     },
     current: {
         flex: 1,

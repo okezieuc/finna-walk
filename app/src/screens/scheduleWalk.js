@@ -260,6 +260,6 @@ const styles = StyleSheet.create({
     textAlign: "left", // Center the text horizontally within the button
   },
   scrollView: {
-    flex: 1,
+    
   },
 });

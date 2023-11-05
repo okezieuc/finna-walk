@@ -12,25 +12,28 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Link, Stack } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import { signOut } from "@firebase/auth";
+import app from "../services/auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 import { router } from 'expo-router'; 
 
 const Top_Bar = ({ currentPage }) => {
+    const auth = getAuth(app);
+
     return (
         <View style={styles.bar}>
+            {router.canGoBack() ? 
             <TouchableOpacity onPress={() => {router.back()}}>
                 <MaterialCommunityIcons name='chevron-left' size={40}/>
-            </TouchableOpacity>
+            </TouchableOpacity> : null}
 
-            <TouchableOpacity
-                onPress={() => {
-                    signOut(auth);
-                    router.replace('/');
-                }}
-            >
-                <Text style={{color: 'blue', fontSize: 17}}>Sign Out</Text>
-            </TouchableOpacity>
+            <Text style={{color: 'blue', fontSize: 17}} 
+            onPress={() => {
+                signOut(auth);
+                router.replace('/');
+            }}>
+                Sign Out
+            </Text>
         </View>
     )
 }
@@ -38,9 +41,11 @@ const Top_Bar = ({ currentPage }) => {
 const styles = StyleSheet.create({
     bar: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: router.canGoBack() ? 'space-between' : 'flex-end',
         padding: 10,
         paddingHorizontal: 20
+
+
     }
 })
 
